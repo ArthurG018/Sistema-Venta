@@ -1,0 +1,60 @@
+﻿@model WebAppVentaDSI.Models.Comprobante
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+
+
+<h1>Detalle - Datos</h1>
+
+<div>
+    <h4>Comprobante</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CodigoComprobante)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaEmisionComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaEmisionComprobante)
+        </dd>
+        <dt class="col-sm-2">
+            Empleado
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Empleado.NombresCompletos)
+        </dd>
+        <dt class="col-sm-2">
+            Cliente
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cliente.NombresCompletos)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoComprobante.NombreTipoComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoComprobante.NombreTipoComprobante)
+        </dd>
+        <dt class="col-sm-2">
+            Tipo Pago
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.TipoPag
+        </dd>
+    </dl>
+</div>
+<div>
+     @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+    {
+        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@Model.IdComprobante" asp-action="Edit">Editar</a> 
+    }
+    <a class="btn btn-warning btn-sm" role="button" asp-action="Index">Atras</a>
+    @*@Html.ActionLink("Editar", "Edit", new {  id = Model.IdCliente }) |
+    @Html.ActionLink("Atras", "Index", new {  /*id = Model.IdDetalleComprobante*/  })*@
+    @* <a asp-action="Index">Back to List</a>*@
+</div>

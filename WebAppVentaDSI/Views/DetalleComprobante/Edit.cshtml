@@ -1,0 +1,47 @@
+﻿@model WebAppVentaDSI.Models.DetalleComprobante
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar - Datos</h1>
+
+<h4>Producto del Comprobante</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdDetalleComprobante" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Comprobante</label>
+                <input asp-for="IdDetalleComprobante" class="form-control" readonly />
+                <span asp-validation-for="IdDetalleComprobante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Producto</label>
+                @*<input asp-for="IdProducto" class="form-control" />
+                <span asp-validation-for="IdProducto" class="text-danger"></span>*@
+                <select class="form-control" asp-for="IdProducto" asp-items="@(new SelectList(ViewBag.ProductoEdit,"IdProducto","NombreProducto"))"></select>
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input asp-for="CantidadDetalleComprobante" class="form-control" />
+                <span asp-validation-for="CantidadDetalleComprobante" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-primary btn-sm" />
+                <a asp-action="Index" role="button" class="btn btn-success btn-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

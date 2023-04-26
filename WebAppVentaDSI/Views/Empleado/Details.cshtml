@@ -1,0 +1,79 @@
+﻿@model WebAppVentaDSI.Models.Empleado
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+
+
+<h1>Detalle - Datos</h1>
+
+<div>
+    <h4>Empleado</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ApellidosEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ApellidosEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DNIEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DNIEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SexoEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SexoEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TelefonoEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TelefonoEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaNacEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaNacEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DireccionEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DireccionEmpleado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CargoEmpleado.NombreCargoEmpleado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CargoEmpleado.NombreCargoEmpleado)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+    {
+       <a class="btn btn-primary btn-sm" role="button"asp-route-id="@Model.IdEmpleado" asp-action="Edit">Editar</a>
+       @* @Html.ActionLink("Editar", "Edit", new {  id = Model.IdEmpleado  }) *@
+       
+    }
+    <a class="btn btn-warning btn-sm" role="button" asp-action="Index">Atras</a>
+    @*@Html.ActionLink("Atras", "Index", new {  /*id = Model.IdDetalleComprobante*/  })*@
+    @*<a asp-action="Index">Back to List</a>*@
+</div>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>BDVentasG</DataSourceReference>
+      <CommandText>SELECT CO.IdComprobante AS 'ID', SUM(DT.PagoDetallePago) AS 'TOTAL', CO.FechaEmisionComprobante AS 'FECHA', CL.NombreCliente + ' ' + CL.ApellidosCliente AS 'CLIENTE'
+FROM     DetalleTipoPago AS DT INNER JOIN
+                  Comprobante AS CO ON DT.IdComprobante = CO.IdComprobante INNER JOIN
+                  Cliente AS CL ON CO.IdCliente = CL.IdCliente
+GROUP BY CO.IdComprobante, CO.FechaEmisionComprobante, CL.NombreCliente + ' ' + CL.ApellidosCliente</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="ID">
+        <DataField>ID</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="TOTAL">
+        <DataField>TOTAL</DataField>
+        <rd:TypeName>System.Double</rd:TypeName>
+      </Field>
+      <Field Name="FECHA">
+        <DataField>FECHA</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="CLIENTE">
+        <DataField>CLIENTE</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

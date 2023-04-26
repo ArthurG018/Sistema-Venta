@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebAppVentaDSI.Models.Producto>
+<!--Para la paginacion-->
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+<br>
+<h2 class="text-info">Listado de Productos</h2>
+<br>
+
+<form class="row">
+    <div class="col-3">
+        <input class="form-control" name="filterByName" placeholder="Ingrese Nombre" />
+    </div>
+    <div class="col-4">
+        <button class="btn btn-primary btn-sm">
+            <i class="fa fa-search text-white" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="col-3">
+    </div> 
+    <!--para registrar-->
+    <br />
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+    {
+        <div class="col-2">
+            <a class="btn btn-success btn-sm" role="alert=" button" asp-action="Create">
+                <i class="fa fa-plus text-white" aria-hidden="true"></i>
+            </a>
+        </div> 
+    } 
+</form>
+<hr />
+<br />
+
+<table class="table table-hover table-bordered">
+
+    <thead>
+        <tr class="table-info">
+            <th><center>ID</center></th>
+            <th><center>Producto</center></th>
+            <th><center>Marca</center></th>
+            <th><center>Modelo</center></th>
+            <th><center>Familia</center></th>
+            <th><center>Precio Compra</center></th>
+            <th><center>Precio Venta</center></th>
+            <th><center>Opciones</center></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i=0; i<Model.Count();i++)
+        {
+            var item = Model.ElementAt(i);
+            <tr>
+                <td><center>@item.IdProducto</center></td>
+                <td><center>@item.NombreProducto</center></td>
+                <td><center>@item.MarcaProducto.NombreMarcaProducto</center></td>
+                <td><center>@item.ModeloProducto</center></td>
+                <td><center>@item.FamiliaProducto.NombreFamiliaProducto</center></td>
+                <td><center>@item.PrecioCompraProducto</center></td>
+                <td><center>@item.PrecioVentaProducto</center></td>
+                <td align="center">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@item.IdProducto" asp-action="Edit">
+                            <i class="fa fa-edit text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                    
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisorVendedor")).Succeeded)
+                    {
+                        <a class="btn btn-warning btn-sm text-white" role="button" asp-route-id="@item.IdProducto" asp-action="Details">
+                            <i class="fa fa-eye text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                        <a class="btn btn-danger btn-sm" role="button" asp-route-id="@item.IdProducto" asp-action="Delete">
+                            <i class="fa fa-trash text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+<!--Paginacion-->
+<div style ="display: flex; justify-content: center; align-items: center;">
+    @Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","Producto",new{page=page}),PagedListRenderOptions.MinimalWithItemCountText)
+</div>

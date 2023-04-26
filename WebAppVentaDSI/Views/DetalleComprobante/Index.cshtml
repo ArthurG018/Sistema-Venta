@@ -1,0 +1,126 @@
+﻿@model IEnumerable<WebAppVentaDSI.Models.DetalleComprobante> 
+<!--Para la paginacion-->
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+<br />
+<h2 class="text-info">Detalle Productos</h2>
+<br />
+@*<form class="row"> 
+    <div class="col-3">
+        <input name="filterByName" class="form-control" placeholder="Ingrese Nombre"/>
+    </div>
+    <div class="col-4">
+        <button class="btn btn-primary">Buscar</button>
+    </div>
+    <div div="col-3">
+    </div>
+    <!--para registrar-->
+    <br />
+</form>*@
+
+<div class="col-3">
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+    {
+        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@TempData["IdComp"]" asp-action="Create" >Añadir Nuevo Producto</a>
+      
+    }
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisorVendedor")).Succeeded)
+    {
+        <a class="btn btn-success btn-sm" asp-action="Index" asp-controller="Comprobante">Atras</a> 
+        @if ((ViewBag.DetPag) == "Cancelado")
+        {
+        }
+        else
+        {
+            <a asp-action="Create" asp-controller="DetalleTipoPago" asp-route-id="@TempData["IdComp"]" role="button" class="btn btn-warning btn-sm">Pagar</a>
+
+        }
+    }
+    
+</div>
+<br>
+
+
+<table class="table table-hover table-bordered table-sm">
+    <thead>
+        <tr class="table-info">
+            <th><center><strong>Cliente</strong></center></th>
+            <th><center><strong>DNI</strong></center></th>
+            <th><center><strong>Fecha Compra</strong></center></th>
+            <th><center><strong>Comprobante</strong></center></th>
+            <th><center><strong>Vendedor</strong></center></th>
+            <th><center><strong>Producto</strong></center></th>
+            <th><center><strong>Marca</strong></center></th>
+            <th><center><strong>Precio</strong></center></th>
+            <th><center><strong>Cantidad</strong></center></th>
+            <th><center><strong>Total</strong></center></th>
+            @if ((ViewBag.DetPag) == "Cancelado")
+            {
+            }else{
+                @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+                {
+                    <th><center><strong>Opciones</strong></center></th>
+                }
+            }
+            
+            @*<th>@TempData["IdComp"]</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in Model)*@
+        @for (int i = 0; i < (TempData["info"] as IEnumerable<WebAppVentaDSI.Models.DetalleComprobante>).Count(); i++)
+        @*@for (int i = 0; i < Model.Count(); i++)*@
+        {
+            var item = (TempData["info"] as IEnumerable<WebAppVentaDSI.Models.DetalleComprobante>).ElementAt(i);
+            var modelo = (ViewBag.Total as IList<double>).ElementAt(i);
+            
+            //int id = (ViewData["IdComp"] as IEnumerable<Comprobante>).ElementAt(0).IdComprobante;
+            @*@if ( ViewData["IdComp"].ToString().Equals(item.IdComprobante.ToString()))
+                    {
+*@
+
+                        <tr>
+                        <td><center>@item.Comprobante.Cliente.NombresCompletos</center></td>
+                        <td><center>@item.Comprobante.Cliente.DNICliente</center></td>
+                        <td><center>@item.Comprobante.FechaEmisionComprobante.ToShortDateString()</center></td>
+                        <td><center>@item.Comprobante.CodigoComprobante</center></td>
+                        <td><center>@item.Comprobante.Empleado.NombresCompletos</center></td>
+                        <td><center>@item.Producto.NombreProducto</center></td>
+                        <td><center>@item.Producto.MarcaProducto.NombreMarcaProducto</center></td>
+                        <td><center>@item.Producto.PrecioVentaProducto</center></td>
+                        <td><center>@item.CantidadDetalleComprobante</center></td>
+                        <td><center>@modelo</center></td>
+                        @if((ViewBag.DetPag)=="Cancelado"){
+
+                        }else{
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+                        {
+                        <td align="center">
+                            <a class="btn btn-primary btn-sm" role="button" asp-route-id="@item.IdDetalleComprobante" asp-action="Edit">
+                                <i class="fa fa-edit text-white" aria-hidden="true"></i>
+                            </a>
+                            <a class="btn btn-warning btn-sm text-white" role="button" asp-route-id="@item.IdDetalleComprobante" asp-action="Details">
+                                <i class="fa fa-eye text-white" aria-hidden="true"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm" role="button" asp-route-id="@item.IdDetalleComprobante" asp-action="Delete">
+                                <i class="fa fa-trash text-white" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        }
+                        }
+                        
+                    </tr>
+                  @* }*@
+        }
+    </tbody>
+</table>
+<!--Paginacion-->
+<div style ="display: flex; justify-content: center; align-items: center;">
+    @Html.PagedListPager((IPagedList)TempData["info"],page=>Url.Action("Index","DetalleComprobante",new{page=page, id=TempData["IdComp"]}),PagedListRenderOptions.MinimalWithItemCountText)
+</div>
+
+

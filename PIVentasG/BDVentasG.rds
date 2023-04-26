@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="BDVentasG">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=DESKTOP-UJ3V5PV;Initial Catalog=DBVentas-PGarcia</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>3c6075a2-aaaa-4e29-8f65-c0c5725bea61</DataSourceID>
+</RptDataSource>

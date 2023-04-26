@@ -1,0 +1,60 @@
+﻿@model WebAppVentaDSI.Models.Comprobante
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar - Datos</h1>
+
+<h4>Comprobante</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdComprobante" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="IdComprobante" class="control-label"></label>
+            <input asp-for="IdComprobante" class="form-control" />
+            <span asp-validation-for="IdComprobante" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="FechaEmisionComprobante" class="control-label"></label>
+            <input asp-for="FechaEmisionComprobante" class="form-control" />
+            <span asp-validation-for="FechaEmisionComprobante" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label>Empleado</label>@*
+                <input asp-for="IdEmpleado" class="form-control" />
+                <span asp-validation-for="IdEmpleado" class="text-danger"></span>*@
+                <select asp-for="IdEmpleado" class="form-control" asp-items="@(new SelectList(ViewBag.EmpleadoEdit, "IdEmpleado","NombresCompletos"))"></select>
+            </div>
+            <div class="form-group">
+                <label>Cliente</label>
+                @*<input asp-for="IdCliente" class="form-control" />
+                <span asp-validation-for="IdCliente" class="text-danger"></span>*@
+                <select asp-for="IdCliente" class="form-control" asp-items="@(new SelectList(ViewBag.ClienteEdit, "IdCliente","NombresCompletos"))"></select>
+            </div>
+            <div class="form-group">
+                <label>Tipo Comprobante</label>
+                @*<input asp-for="IdTipoComprobante" class="form-control" />
+                <span asp-validation-for="IdTipoComprobante" class="text-danger"></span>*@
+                <select asp-for="IdTipoComprobante" class="form-control" asp-items="@(new SelectList(ViewBag.TipoEdit, "IdTipoComprobante","NombreTipoComprobante"))"></select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-primary btn-sm" />
+                <a asp-action="Index" role="button" class="btn btn-success btn-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<WebAppVentaDSI.Models.Empleado>
+<!--Para la paginacion-->
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+<h2 class="text-info">Listado de Empleados</h2>
+<br>
+<form class="row">
+    <div class="col-3">
+        <input class="form-control" name="filterByName" placeholder="Ingrese Nombre" />
+    </div>
+    <div class="col-4">
+        <button class="btn btn-primary btn-sm">
+            <i class="fa fa-search text-white" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="col-3">
+    </div>
+    <!--para registrar-->
+    <br />
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+    {
+        <div class="col-2">
+        <a class="btn btn-success btn-sm" role="alert=" button" asp-action="Create">
+                <i class="fa fa-plus text-white" aria-hidden="true"></i>
+        </a>
+        </div>
+    }
+</form>
+<hr />
+<br />
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="table-info">
+            <th><center>@Html.DisplayNameFor(item =>item.IdEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.NombreEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.ApellidosEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.FechaNacEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.DNIEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.SexoEmpleado)</center></th>
+            <th><center>@Html.DisplayNameFor(item=>item.DireccionEmpleado)</center></th>
+            <th><center>Cargo </center></th>
+            <th><center>Estado </center></th>
+            <th><center>Opciones </center></th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @*@foreach (var item in ViewData["EM"] as IList<WebAppVentaDSI.Models.Empleado>)*@
+        @for(int i=0;i<(ViewData["EM"] as IEnumerable<WebAppVentaDSI.Models.Empleado>).Count();i++)
+        {
+            var item = (ViewData["EM"] as IEnumerable<WebAppVentaDSI.Models.Empleado>).ElementAt(i);
+            var estado = (ViewData["ESTADO"] as List<string>).ElementAt(i);
+            <tr>
+                <td align="center">@item.IdEmpleado</td>
+                <td align="center">@item.NombreEmpleado</td>
+                <td align="center">@item.ApellidosEmpleado</td>
+                <td align="center">@item.FechaNacEmpleado.ToShortDateString()</td>
+                <td align="center">@item.DNIEmpleado</td>
+                <td align="center">@item.SexoEmpleado</td>
+                <td align="center">@item.DireccionEmpleado</td>
+                <td align="center">@item.CargoEmpleado.NombreCargoEmpleado</td>
+                <td align="center">@estado</td>
+                <td align="center">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@item.IdEmpleado" asp-action="Edit">
+                            <i class="fa fa-edit text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+                    {
+                    <a class="btn btn-warning btn-sm text-white" role="button" asp-route-id="@item.IdEmpleado" asp-action="Details">
+                            <i class="fa fa-eye text-white" aria-hidden="true"></i>
+                    </a>    
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                    <a class="btn btn-danger btn-sm" role="button" asp-route-id="@item.IdEmpleado" asp-action="Delete">
+                            <i class="fa fa-stop text-white" aria-hidden="true"></i>
+                    </a>
+                    }
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<!--Paginacion-->
+<div style ="display: flex; justify-content: center; align-items: center;">
+    @Html.PagedListPager((IPagedList)ViewData["EM"],page=>Url.Action("Index","Empleado",new{page=page}),PagedListRenderOptions.MinimalWithItemCountText)
+</div>

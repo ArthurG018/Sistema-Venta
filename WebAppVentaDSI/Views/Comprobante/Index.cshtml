@@ -1,0 +1,113 @@
+﻿@model IEnumerable<WebAppVentaDSI.Models.Comprobante>
+<!--Para la paginacion-->
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+<br>
+<h2 class="text-info">Realizar Venta</h2>
+<br>
+<form>
+    <div class="row">
+        <div class="col-3">
+            <input name="filterByName" class="form-control" placeholder="Ingrese Comprobante"/>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-primary">
+                <i class="fa fa-search text-white" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div div="col-3">
+        </div>
+    </div>
+    <!--para registrar-->
+    <br />
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisorVendedor")).Succeeded)
+    {
+        <div class="col-2">
+            <a class="btn btn-success btn-sm" role="alert=" button" asp-action="Create">
+                <i class="fa fa-plus text-white" aria-hidden="true"></i>
+                </a>
+        </div>
+    }
+   <br />
+    <div class="col-2">
+        <a class="btn btn-success btn-sm" role="alert=" button" target="_parent" href="http://desktop-uj3v5pv/ReportServer/Pages/ReportViewer.aspx?%2fPIVentasG%2fRptInfo&rs:Command=Render">
+            <i class="fa fa-server text-white" aria-hidden="true"></i>
+        </a>
+    </div>
+    
+</form>
+<br>
+<table class="table table-hover table-bordered">
+
+    <thead>
+        <tr class="table-warning">
+            <th><center><strong>@ViewBag.ID</strong></center></th>
+            <th><center><strong>@ViewBag.NOM</strong></center></th>
+            <th><center><strong>@ViewBag.APE</strong></center></th>
+            <th><center><strong>@ViewBag.FECH</strong></center></th>
+            <th><center><strong>@ViewBag.SEX</strong></center></th>
+            <th><center><strong>@ViewBag.DNI</strong></center></th>
+            <th><center><strong>@ViewBag.TC</strong></center></th>
+            <th><center><strong>@ViewBag.TT</strong></center></th> 
+            <th><center><strong>@ViewBag.PAG</strong></center></th>
+            <th><center><strong>@ViewBag.OP</strong></center></th> 
+        </tr>
+
+    </thead>
+    <tbody>
+        @*@foreach (var item in ViewBag.CO)*@
+        @*@for(int i =0; i<ViewBag.CO.Count();i++)*@
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var item = Model.ElementAt(i);
+            var pago = (TempData["Total"] as IList<double>).ElementAt(i);
+            var detPag = (TempData["DetPag"] as IList<double>).ElementAt(i);
+            double condicion = detPag-pago;
+
+            <tr>
+                <td><center>@item.CodigoComprobante</center></td>
+                <td><center>@item.Cliente.NombreCliente</center></td>
+                <td><center>@item.Cliente.ApellidosCliente</center></td>
+                <td><center>@item.FechaEmisionComprobante.ToShortDateString()</center></td>
+                <td><center>@item.Cliente.SexoCliente</center></td>
+                <td><center>@item.Cliente.DNICliente</center></td>
+                <td><center>@item.TipoComprobante.NombreTipoComprobante</center></td>
+                <td><center>@pago</center></td>
+                @if (condicion<=0)
+                {
+                    <td><center>Cancelado</center></td>
+                }
+                else
+                {
+                    <td><center>Pendiente Pago = S/@condicion.00</center></td>
+                }
+                
+                <td align="center">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+                    {
+                        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@item.IdComprobante" asp-action="Edit"><i class="fa fa-edit text-white" aria-hidden="true"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisorVendedor")).Succeeded)
+                    {
+                        <a class="btn btn-warning btn-sm text-white" role="button" asp-route-id="@item.IdComprobante" asp-action="Index" asp-controller="DetalleComprobante"><i class="fa fa-store text-white" aria-hidden="true"></i></a>
+                        <a class="btn btn-success btn-sm text-white" role="button" asp-route-id="@item.IdComprobante" asp-action="Details"><i class="fa fa-eye text-white" aria-hidden="true"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                        <a class="btn btn-danger btn-sm" role="button" asp-route-id="@item.IdComprobante" asp-action="Delete"><i class="fa fa-trash text-white" aria-hidden="true"></i></a>
+                    }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!--Paginacion-->
+<div style ="display: flex; justify-content: center; align-items: center;">
+    @Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","Comprobante",new{page=page}),PagedListRenderOptions.MinimalWithItemCountText)
+</div>
+

@@ -1,0 +1,51 @@
+﻿@model WebAppVentaDSI.Models.DetalleComprobante
+
+@*@{
+    ViewData["Title"] = "Ingreso";
+}*@
+
+<h1>Añadir Nuevo</h1>
+
+<h3>Producto</h3>
+<h4>@ViewBag.InfoTotal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input asp-for="CantidadDetalleComprobante" class="form-control" />
+                <span asp-validation-for="CantidadDetalleComprobante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Producto</label>
+                @*<input asp-for="IdProducto" class="form-control" />
+                <span asp-validation-for="IdProducto" class="text-danger"></span>*@
+                <select asp-for="IdProducto" class="form-control" asp-items="@(new SelectList(ViewBag.InfoProducto,"IdProducto","NombrePrecio"))"></select>
+            </div>
+            <div class="form-group">
+                <label>Comprobante</label>
+                @*<input asp-for="IdComprobante" class="form-control" />
+                <span asp-validation-for="IdComprobante" class="text-danger"></span>*@
+                
+                <input asp-for="IdComprobante" class="form-control" value="@ViewBag.InfoComprobante" placeholder="@ViewBag.InfoComprobante" readonly />
+                <span asp-validation-for="IdComprobante" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Agregar Producto" class="btn btn-primary btn-sm" />
+                <a asp-action="Create" asp-controller="DetalleTipoPago"  role="button" class="btn btn-warning btn-sm">Pagar</a>
+                <a asp-action="Index" asp-controller="Comprobante" role="button" class="btn btn-success btn-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

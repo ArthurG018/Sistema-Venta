@@ -1,0 +1,79 @@
+﻿@model WebAppVentaDSI.Models.Producto
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+
+
+<h1>Detalle - Producto</h1>
+
+<div>
+    <h4>Producto</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ModeloProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ModeloProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PrecioCompraProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrecioCompraProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PrecioVentaProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrecioVentaProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StockProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StockProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DescripcionProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DescripcionProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MarcaProducto.NombreMarcaProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MarcaProducto.NombreMarcaProducto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FamiliaProducto.NombreFamiliaProducto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FamiliaProducto.NombreFamiliaProducto)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+    {
+       <a class="btn btn-primary btn-sm" role="button"asp-route-id="@Model.IdProducto" asp-action="Edit">Editar</a>
+       @* @Html.ActionLink("Editar", "Edit", new {  id = Model.IdEmpleado  }) *@
+       
+    }
+    <a class="btn btn-warning btn-sm" role="button" asp-action="Index">Atras</a>
+    @*<a>@Html.ActionLink("Editar", "Edit", new {  id = Model.IdProducto  }) |
+    <a asp-action="Index">Atras</a>*@
+</div>

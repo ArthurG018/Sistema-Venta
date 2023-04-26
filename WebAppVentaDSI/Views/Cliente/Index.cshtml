@@ -1,0 +1,91 @@
+﻿@model IEnumerable<WebAppVentaDSI.Models.Cliente>
+<!--Para la paginacion-->
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Web.Common;
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+
+<br>
+<h2 class="text-info">Listado de Clientes</h2>
+<br>
+
+<form class="row">
+    <div class="col-3">
+        <input class="form-control" name="filterByName" placeholder="Ingrese Nombre" />
+    </div>
+    <div class="col-4">
+        <button class="btn btn-primary btn-sm">
+            <i class="fa fa-search text-white" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="col-3">
+    </div>
+    <!--para registrar-->
+    <br /> 
+        <div class="col-2">
+            <a class="btn btn-success btn-sm" role="alert=" button" asp-action="Create">
+            <i class="fa fa-plus text-white" aria-hidden="true"></i>
+            </a>
+        </div>
+</form>
+<hr />
+<br />
+
+<table class="table table-hover table-bordered">
+
+    <thead>
+        <tr class="table-info">
+            <th><center>@TempData["ID"]</center></th>
+            <th><center>@TempData["NOM"]</center></th>
+            <th><center>@TempData["APE"]</center></th>
+            <th><center>@TempData["DNI"]</center></th>
+            <th><center>@TempData["FECH"]</center></th>
+            <th><center>@TempData["SEX"]</center></th>
+            <th><center>@TempData["CEL"]</center></th>
+            <th><center>@TempData["DIRE"]</center></th>
+            <th><center>@TempData["OPC"]</center></th>
+        </tr>
+    </thead>
+    <tbody>
+       @* @foreach (var item in @TempData["CLIENTE"] as IEnumerable<WebAppVentaDSI.Models.Cliente>)*@
+       @for(int i =0;i<Model.Count();i++)
+        {
+            var item = Model.ElementAt(i);
+            <tr> 
+                <td><center>@item.IdCliente</center></td>
+                <td><center>@item.NombreCliente</center></td>
+                <td><center>@item.ApellidosCliente</center></td>
+                <td><center>@item.DNICliente</center></td>
+                <td><center>@item.FechaNacCliente.ToShortDateString()</center></td>
+                <td><center>@item.SexoCliente</center></td>
+                <td><center>@item.TelefonoCliente</center></td>
+                <td><center>@item.DireccionCliente</center></td>
+                <td align="center">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+                    {
+                        <a class="btn btn-primary btn-sm" role="button" asp-route-id="@item.IdCliente" asp-action="Edit">
+                            <i class="fa fa-edit text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisorVendedor")).Succeeded)
+                    {
+                         <a class="btn btn-warning btn-sm text-white" role="button" asp-route-id="@item.IdCliente" asp-action="Details">
+                            <i class="fa fa-eye text-white" aria-hidden="true"></i>
+                        </a>
+                    }
+                   @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerente")).Succeeded)
+                    {
+                        <a class="btn btn-danger btn-sm" role="button" asp-route-id="@item.IdCliente" asp-action="Delete">
+                            <i class="fa fa-trash text-white" aria-hidden="true"></i>
+                        </a>
+                    } 
+                </td>
+            </tr>
+
+        }
+        </tbody>
+</table>
+<div style ="display: flex; justify-content: center; align-items: center;">
+    @Html.PagedListPager((IPagedList)Model,page=>Url.Action("Index","Cliente",new{page=page}),PagedListRenderOptions.MinimalWithItemCountText)
+</div>

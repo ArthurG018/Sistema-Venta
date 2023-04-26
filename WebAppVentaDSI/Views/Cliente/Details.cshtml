@@ -1,0 +1,77 @@
+﻿@model WebAppVentaDSI.Models.Cliente
+<!--inject role-->
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalle - Datos</h1>
+
+<div>
+    <h4>Cliente</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdCliente)
+        </dd>
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreCliente)
+        </dd>
+        <dt class="col-sm-2">
+            Apellidos
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ApellidosCliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DNICliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DNICliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SexoCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SexoCliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TelefonoCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TelefonoCliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaNacCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaNacCliente)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DireccionCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DireccionCliente)
+        </dd>
+    </dl>
+</div>
+<br />
+<div>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "AllowLayoutGerenteSupervisor")).Succeeded)
+    {
+       <a class="btn btn-primary btn-sm" role="button"asp-route-id="@Model.IdCliente" asp-action="Edit">Editar</a>
+       @* @Html.ActionLink("Editar", "Edit", new {  id = Model.IdEmpleado  }) *@
+       
+    }
+    <a class="btn btn-warning btn-sm" role="button" asp-action="Index">Atras</a>
+
+    @*@Html.ActionLink("Edit", "Edit", new {  id = Model.IdCliente  }) |*@
+    @*@Html.ActionLink("Atras", "Index", new { /* id = Model.IdCliente*/  })*@
+    @* <a asp-action="Index">Back to List</a>*@
+</div>

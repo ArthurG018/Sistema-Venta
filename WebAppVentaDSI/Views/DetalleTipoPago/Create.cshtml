@@ -1,0 +1,77 @@
+﻿@model WebAppVentaDSI.Models.DetalleTipoPago
+
+@*@{
+    ViewData["Title"] = "Create";
+    //TempData["PReal"];
+}*@
+
+<h1>Pagar</h1>
+
+<h4>Productos</h4>
+
+<hr />
+<table >
+    <thead>
+        <tr >
+            <th><center>P. Realizado</center></th>
+            <th><center>P. Pendiente</center></th>
+            <th><center>Total a Pagar</center></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><center>@ViewBag.PagRealizado</center></td>
+            <td><center>@ViewBag.PagoReal</center></td>
+            <td><center>@ViewBag.PagPendiente</center></td>
+        </tr>
+    </tbody>
+    
+</table>
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            @*<input type="hidden" asp-for="IdComprobante" />*@
+
+            @*<input type="hidden" asp-for="IdComprobante" />*@
+            @*<input name="filterByName" class="form-control" placeholder="Ingrese Nombre">*@
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @* <div class="form-group">
+                <label asp-for="IdDetalleTipoPago" class="control-label"></label>
+                <input asp-for="IdDetalleTipoPago" class="form-control" />
+                <span asp-validation-for="IdDetalleTipoPago" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="PagoDetallePago" class="control-label"></label>
+                <input asp-for="PagoDetallePago" class="form-control" />
+                <span asp-validation-for="PagoDetallePago" class="text-danger"></span>
+            </div>
+            <div class="form-group"> 
+                <label asp-for="IdComprobante" class="control-label"></label>
+                <input asp-for="IdComprobante" class="form-control" value="@ViewBag.InfoComprobante" placeholder="@ViewBag.InfoComprobante" readonly />
+                <span asp-validation-for="IdComprobante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoPago" class="control-label"></label>
+                @*<input asp-for="IdTipoPago" class="form-control" />
+                <span asp-validation-for="IdTipoPago" class="text-danger"></span>*@
+                <select asp-for="IdTipoPago" class="form-control" asp-items="@(new SelectList(ViewBag.InfoTipoPago ,"IdTipoPago","NombreTipoPago"))"></select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input class="btn-sm btn-success" type="submit" value="Pagar" class="btn btn-primary" />
+                <a class="btn btn-warning btn-sm" asp-action="Index" asp-controller="Comprobante">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

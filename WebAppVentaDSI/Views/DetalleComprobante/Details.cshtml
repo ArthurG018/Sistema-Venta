@@ -1,0 +1,44 @@
+﻿@model WebAppVentaDSI.Models.DetalleComprobante
+
+
+<h1>Detalle Producto</h1>
+
+<div>
+    <h4>DetalleComprobante</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdDetalleComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdDetalleComprobante)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CantidadDetalleComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CantidadDetalleComprobante)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Producto.NombreProducto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Producto.NombreProducto)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdComprobante)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdComprobante)
+        </dd>
+    </dl>
+</div>
+<br />
+
+<div>
+    <a class="btn btn-primary btn-sm" role="button"asp-route-id="@Model.IdProducto" asp-action="Edit">Editar</a>
+    <a class="btn btn-warning btn-sm" role="button" asp-action="Index">Atras</a>
+@*    @Html.ActionLink("Editar", "Edit", new {  id = Model.IdDetalleComprobante  }) |
+    @Html.ActionLink("Atras", "Index", new {  /*id = Model.IdDetalleComprobante*/  })*@
+    @*<a asp-action="Index" class="btn btn-success btn-sm" role="button">Atras</a>*@
+</div>

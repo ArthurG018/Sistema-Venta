@@ -1,0 +1,77 @@
+﻿@model WebAppVentaDSI.Models.Empleado
+
+
+<h1>Añadir Nuevo</h1>
+
+<h4>Empleado</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* <div class="form-group">
+            <label asp-for="IdEmpleado" class="control-label"></label>
+            <input asp-for="IdEmpleado" class="form-control" />
+            <span asp-validation-for="IdEmpleado" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label>Nombre</label>
+                <input asp-for="NombreEmpleado" class="form-control" />
+                <span asp-validation-for="NombreEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Apellidos</label>
+                <input asp-for="ApellidosEmpleado" class="form-control" />
+                <span asp-validation-for="ApellidosEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>DNI</label>
+                <input asp-for="DNIEmpleado" class="form-control" />
+                <span asp-validation-for="DNIEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Sexo</label>
+                @*<input asp-for="SexoEmpleado" class="form-control" />
+                <span asp-validation-for="SexoEmpleado" class="text-danger"></span>*@
+                <select class="form-control" asp-for="SexoEmpleado">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Telefono</label>
+                <input asp-for="TelefonoEmpleado" class="form-control" />
+                <span asp-validation-for="TelefonoEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaNacEmpleado" class="control-label"></label>
+                <input asp-for="FechaNacEmpleado" class="form-control" type="Date"/>
+                <span asp-validation-for="FechaNacEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DireccionEmpleado" class="control-label"></label>
+                <input asp-for="DireccionEmpleado" class="form-control" />
+                <span asp-validation-for="DireccionEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Cargo</label>
+                @* <input asp-for="IdCargoEmpleado" class="form-control" />
+                <span asp-validation-for="IdCargoEmpleado" class="text-danger"></span>*@
+                <select class="form-control" asp-for="IdCargoEmpleado" asp-items="@(new SelectList(ViewBag.InfoCargo,"IdCargoEmpleado","NombreCargoEmpleado"))"></select>
+            </div>
+            <br />
+            <div class="form-group">
+
+                <input type="submit" value="Añadir" class="btn btn-primary btn-sm" />
+                <a asp-action="Index" role="button" class="btn btn-success btn-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

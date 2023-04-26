@@ -1,0 +1,81 @@
+﻿@model WebAppVentaDSI.Models.Producto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar - Datos</h1>
+
+<h4>Producto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdProducto" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                <label asp-for="IdProducto" class="control-label"></label>
+                <input asp-for="IdProducto" class="form-control" />
+                <span asp-validation-for="IdProducto" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="NombreProducto" class="control-label"></label>
+                <input asp-for="NombreProducto" class="form-control" />
+                <span asp-validation-for="NombreProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModeloProducto" class="control-label"></label>
+                <input asp-for="ModeloProducto" class="form-control" />
+                <span asp-validation-for="ModeloProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioCompraProducto" class="control-label"></label>
+                <input asp-for="PrecioCompraProducto" class="form-control" />
+                <span asp-validation-for="PrecioCompraProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioVentaProducto" class="control-label"></label>
+                <input asp-for="PrecioVentaProducto" class="form-control" />
+                <span asp-validation-for="PrecioVentaProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StockProducto" class="control-label"></label>
+                <input asp-for="StockProducto" class="form-control" />
+                <span asp-validation-for="StockProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionProducto" class="control-label"></label>
+                <input asp-for="DescripcionProducto" class="form-control" />
+                <span asp-validation-for="DescripcionProducto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label >Marca</label>
+                <select class="form-control" asp-for="IdMarcaProducto" asp-items="@(new SelectList(ViewBag.infoMarca,"IdMarcaProducto","NombreMarcaProducto"))"></select>
+                @*<input asp-for="IdMarcaProducto" class="form-control" />
+                <span asp-validation-for="IdMarcaProducto" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label >Familia Producto</label>
+                <select class="form-control" asp-for="IdFamiliaProducto" asp-items="@(new SelectList(ViewBag.infofamilia,"IdFamiliaProducto","NombreFamiliaProducto"))"></select>
+                @*<input asp-for="IdFamiliaProducto" class="form-control" />
+                <span asp-validation-for="IdFamiliaProducto" class="text-danger"></span>*@
+            </div>
+            @*<div class="form-group">
+                <label asp-for="NombrePrecio" class="control-label"></label>
+                <input asp-for="NombrePrecio" class="form-control" />
+                <span asp-validation-for="NombrePrecio" class="text-danger"></span>
+            </div>*@
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-primary btn-sm" />
+                <a asp-action="Index" class="btn btn-success btn-sm">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
